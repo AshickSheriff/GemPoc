@@ -1,0 +1,18 @@
+{
+  "Minitest": {
+    "coverage": {
+      "/Users/ashicksheriff/Workspace/Work/GemPoc/test/controllers/home_controller_test.rb": {
+        "lines": [
+          1,
+          null,
+          1,
+          null,
+          null,
+          null,
+          null
+        ]
+      }
+    },
+    "timestamp": 1714736321
+  }
+}

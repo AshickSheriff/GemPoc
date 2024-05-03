@@ -29,6 +29,8 @@ gem "jbuilder"
 
 gem 'sass-rails', '~> 6.0'
 
+gem 'codeclimate'
+
 # Use Redis adapter to run Action Cable in production
 # gem "redis", "~> 4.0"
 
@@ -70,5 +72,6 @@ group :test do
   # Use system testing [https://guides.rubyonrails.org/testing.html#system-testing]
   gem "capybara"
   gem "selenium-webdriver"
+  gem 'simplecov', require: false
 
 end
