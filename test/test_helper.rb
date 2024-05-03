@@ -1,6 +1,14 @@
+require 'simplecov'
+SimpleCov.start
+
 ENV["RAILS_ENV"] ||= "test"
 require_relative "../config/environment"
 require "rails/test_help"
+
+SimpleCov.start do
+  add_filter '/config/'
+  add_filter '/db/'
+end
 
 class ActiveSupport::TestCase
   # Run tests in parallel with specified workers
