@@ -1,35 +1,26 @@
-name: CI
-
+name: CodeClimate
 on: [push, pull_request]
-
 jobs:
-  build:
+  codeclimate:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v3
-    - name: Setup Ruby
-      uses: ruby/setup-ruby@v1
-      with:
-        ruby-version: 3.2.2 # Update with your desired Ruby version
-    - name: Bundle Install
-      run: bundle install
-  test:
-    needs: [ build ]
-    runs-on: ubuntu-latest
-    steps:
-    - uses: actions/checkout@v3
-    - name: Setup Ruby
-      uses: ruby/setup-ruby@v1
-      with:
-        ruby-version: 3.2.2 # Update with your desired Ruby version
-    - name: Bundle Install
-      run: bundle install
-    - name: Install SimpleCov
-      run: gem install simplecov
-    - name: Run Tests with Coverage
-      run: bundle exec rspec --format RSpec::Formats::SimpleCov
-    - name: Upload Coverage Report (optional)
-      env:
-        CODECLIMATE_REPO_TOKEN: ${{ secrets.CODECLIMATE_TOKEN }}  # Replace with your CodeClimate token
-      run: |
-        bundle exec rspec
+      - uses: actions/checkout@v2
+      - name: Setup Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: 3.2.2
+      - name: Install dependencies
+        run: |
+          gem install bundler
+          bundle install
+      - name: Run RSpec with SimpleCov
+        run: |
+          bundle exec rspec
+      - name: Upload coverage data to CodeClimate
+        env:
+          CC_TEST_REPORTER_ID: ${{ secrets.CODECLIMATE_TOKEN }}
+        run: |
+          curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
+          chmod +x ./cc-test-reporter
+          ./cc-test-reporter format-coverage -t simplecov -o coverage/codeclimate.json
+          ./cc-test-reporter upload-coverage
