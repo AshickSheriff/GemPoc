@@ -1,0 +1,38 @@
+name: CI
+
+on: [push, pull_request]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    - name: Setup Ruby
+      uses: ruby/setup-ruby@v1
+      with:
+        ruby-version: 3.2.2 # Update with your desired Ruby version
+    - name: Bundle Install
+      run: bundle install
+  test:
+    needs: [ build ]
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    - name: Setup Ruby
+      uses: ruby/setup-ruby@v1
+      with:
+        ruby-version: 3.2.2 # Update with your desired Ruby version
+    - name: Bundle Install
+      run: bundle install
+    - name: Install SimpleCov
+      run: gem install simplecov
+    - name: Configure SimpleCov (optional)
+      run: |  # Add your desired SimpleCov configuration here (e.g., for specific coverage format)
+        echo "SimpleCov.minimum_coverage 50" >> config/environment/development.rb
+    - name: Run Tests with Coverage
+      run: bundle exec rspec --format RSpec::Formats::SimpleCov
+    - name: Upload Coverage Report (optional)
+      env:
+        CODECLIMATE_REPO_TOKEN: ${{ secrets.CODECLIMATE_TOKEN }}  # Replace with your CodeClimate token
+      run: |
+        bundle exec rspec
