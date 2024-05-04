@@ -26,9 +26,6 @@ jobs:
       run: bundle install
     - name: Install SimpleCov
       run: gem install simplecov
-    - name: Configure SimpleCov (optional)
-      run: |  # Add your desired SimpleCov configuration here (e.g., for specific coverage format)
-        echo "SimpleCov.minimum_coverage 50" >> config/environments/development.rb
     - name: Run Tests with Coverage
       run: bundle exec rspec --format RSpec::Formats::SimpleCov
     - name: Upload Coverage Report (optional)
