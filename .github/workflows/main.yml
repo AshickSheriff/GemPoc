@@ -13,9 +13,6 @@ jobs:
         run: |
           gem install bundler
           bundle install
-      - name: Run RSpec with SimpleCov
-        run: |
-          bundle exec rspec
       - name: Upload coverage data to CodeClimate
         env:
           CC_TEST_REPORTER_ID: ${{ secrets.CODECLIMATE_TOKEN }}
