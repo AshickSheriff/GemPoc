@@ -20,7 +20,7 @@ jobs:
         run: bundle install
 
       - name: Run Tests and Coverage
-        run: bundle exec rails test:cov
+        run: bundle exec rails test
 
       - name: Upload Code Coverage to CodeClimate
         uses: paambaati/codeclimate-action@v6.0.0  # CodeClimate action
