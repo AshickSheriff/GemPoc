@@ -36,12 +36,12 @@ jobs:
           bundle install --jobs 4 --retry 3
      
       - name: Setup Database
-        run: bin/rails db:create db:schema:load
         env:
           RAILS_ENV: test
           POSTGRES_USER: ${{ secrets.DB_USER }}
           POSTGRES_PASSWORD: ${{ secrets.DB_PASSWORD }}
           POSTGRES_DB: GemPoc_test
+        run: bundle exec rails db:prepare
 
       - name: Build and test with rspec
         env:
