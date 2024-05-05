@@ -2,7 +2,7 @@ name: Code Climate
 
 on:
   push:
-    branches: [ master ]  # Adjust branch(es) to trigger on
+    branches: [ main ]  # Adjust branch(es) to trigger on
 
 jobs:
   test_and_coverage:
@@ -14,7 +14,7 @@ jobs:
       - name: Set up Ruby
         uses: ruby/setup-ruby@v1
         with:
-          ruby-version: 3.2  # Adjust Ruby version based on your Rails app
+          ruby-version: 3.2.2  # Adjust Ruby version based on your Rails app
 
       - name: Bundle Install
         run: bundle install
