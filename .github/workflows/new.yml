@@ -10,7 +10,7 @@ jobs:
   test:
     services:
       db:
-        image: postgres:11
+        image: postgres
         ports: ['5432:5432']
     runs-on: ubuntu-latest
 
