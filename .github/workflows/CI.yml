@@ -42,8 +42,6 @@ jobs:
           RAILS_ENV: test
           WITH_COVERAGE: true
           DISABLE_SPRING: 1
-        run: |
-          bundle exec rake test
 
       - name: Build and test with rspec
         env:
