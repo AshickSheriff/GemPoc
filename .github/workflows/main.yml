@@ -2,7 +2,7 @@ name: Code Climate
 
 on:
   push:
-    branches: [ main ]  # Adjust branch(es) to trigger on
+    branches: [ master ]  # Adjust branch(es) to trigger on
 
 jobs:
   test_and_coverage:
@@ -14,18 +14,21 @@ jobs:
       - name: Set up Ruby
         uses: ruby/setup-ruby@v1
         with:
-          ruby-version: 3.2.2  # Adjust Ruby version based on your Rails app
+          ruby-version: 3.2  # Adjust Ruby version based on your Rails app
 
       - name: Bundle Install
         run: bundle install
 
-      - name: Run Tests and Coverage
-        run: bundle exec rails test
+      - name: Seed Database (if needed)
+        run: bundle exec rails db:seed  # Adjust command as needed
+
+      - name: Run RSpec Tests and Coverage
+        run: bundle exec rspec --format RspecJsonFormatter --out coverage/results.json
 
       - name: Upload Code Coverage to CodeClimate
         uses: paambaati/codeclimate-action@v6.0.0  # CodeClimate action
         env:
-          CC_TEST_REPORTER_ID: ${{ secrets.CODECLIMATE_TOKEN   }}  # Replace with your ID
+          CC_TEST_REPORTER_ID: your_codeclimate_reporter_id  # Replace with your ID
         with:
-          coverageCommand: bundle exec rails test:cov
-          coverageLocations: ./coverage/*.xml  # Adjust path if coverage reports are elsewhere
+          coverageCommand: cat coverage/results.json  # Coverage report location
+          coverageLocations: coverage/results.json  # Adjust path if needed
