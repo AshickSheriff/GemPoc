@@ -83,6 +83,8 @@ GEM
       regexp_parser (>= 1.5, < 3.0)
       xpath (~> 3.2)
     codeclimate (0.0.0)
+    codeclimate-test-reporter (1.0.7)
+      simplecov
     concurrent-ruby (1.2.3)
     crass (1.0.6)
     date (3.3.4)
@@ -140,7 +142,6 @@ GEM
       racc (~> 1.4)
     nokogiri (1.16.4-x86_64-linux)
       racc (~> 1.4)
-    pg (1.5.6)
     psych (5.1.2)
       stringio
     public_suffix (5.0.5)
@@ -269,10 +270,10 @@ DEPENDENCIES
   bootsnap
   capybara
   codeclimate
+  codeclimate-test-reporter
   debug
   importmap-rails
   jbuilder
-  pg (~> 1.5, >= 1.5.4)
   puma (~> 5.0)
   rails (~> 7.0.8, >= 7.0.8.1)
   rspec-rails (~> 6.0, >= 6.0.3)
