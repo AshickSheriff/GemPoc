@@ -1,0 +1,24 @@
+version: "3.8"
+
+services:
+  app:
+    build: .
+    ports:
+      - "3000:3000"
+    environment:
+      RAILS_ENV: development  # Change to production for deployment
+    depends_on:
+      - db  # Wait for db to be ready before starting the app
+
+  db:
+    image: postgres  # Use an official Postgres image
+    environment:
+      POSTGRES_PASSWORD: <%= Rails.application.credentials.DB_PASSWORD %>  # Set an environment variable for password
+      POSTGRES_USER: <%= Rails.application.credentials.DB_USER %>  # Username for the database
+      POSTGRES_DB: GemPoc_test  # Name of the test database
+    volumes:
+      - postgres_data:/var/lib/postgresql/data  # Persist database data
+
+volumes:
+  postgres_data:
+

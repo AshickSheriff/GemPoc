@@ -6,6 +6,8 @@ default: &default
 development:
   <<: *default
   database: GemPoc_development
+  username: <%= Rails.application.credentials.DB_USER %>
+  password: <%= Rails.application.credentials.DB_PASSWORD %>
 
 test:
   <<: *default
@@ -16,5 +18,5 @@ test:
 production:
   <<: *default
   database: GemPoc_production
-  username: <%= Rails.application.credentials.DB_USER %>c
+  username: <%= Rails.application.credentials.DB_USER %>
   password: <%= Rails.application.credentials.DB_PASSWORD %>
