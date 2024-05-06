@@ -29,7 +29,7 @@ jobs:
           sudo apt install -yqq libpq-dev
           gem install bundler
 
-      - name: Install Gems
+      - name: Install Gems 
         run: |
           bundle install
 
