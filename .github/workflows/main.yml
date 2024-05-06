@@ -24,7 +24,7 @@ jobs:
       PG_HOST: ""  # Set to empty string
       PG_USER: ""  # Set to empty string (connection string will override)
       PG_PASSWORD: ""  # Set to empty string (connection string will override)
-      POSTGRES_TEST_URI: postgres://postgres:${{ secrets.DB_PASSWORD }}@postgres:5432/gempoc_test
+      POSTGRES_TEST_URI: postgres://postgres:${{ secrets.DB_PASSWORD }}@postgres:5432/postgres
       RAILS_ENV: test
       WITH_COVERAGE: true
       DISABLE_SPRING: 1
