@@ -1,45 +1,61 @@
 name: CI
-on: [push, pull_request]
+on:
+
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
 jobs:
-  build:
+  test:
     runs-on: ubuntu-latest
-    services:
+
+    services: 
       postgres:
         image: postgres
-        ports:
-          - 5432:5432
         env:
-          POSTGRES_USER: ${{ secrets.DB_USER }}
           POSTGRES_PASSWORD: ${{ secrets.DB_PASSWORD }}
-        options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
-    steps:
-      - uses: actions/checkout@v3
+        ports: ['5432:5432']
 
-      - uses: actions/setup-ruby@v1
+    steps:
+      - uses: actions/checkout@v2
+      - name: Setup Ruby
+        uses: ruby/setup-ruby@v1
         with:
           ruby-version: 3.2.2
 
-      - name: Install dependent libraries
-        run: sudo apt-get install libpq-dev
+      - uses: Borales/actions-yarn@v2.3.0
+        with:
+          cmd: install
 
-      - name: Bundle install
+      - name: Install Dependencies
         run: |
+          sudo apt install -yqq libpq-dev
           gem install bundler
-          bundle install --jobs 4 --retry 3
 
-      - name: Setup Database
+      - name: Install Gems
         run: |
-          cp config/database.yml.github-actions config/database.yml
-          bundle exec rake db:create
-          bundle exec rake db:schema:load
-        env:
-          RAILS_ENV: test
-          POSTGRES_USER: postgres
-          POSTGRES_PASSWORD: postgres
+          bundle install
 
-      - name: Run RSpec
-        run: COVERAGE=true bundle exec rspec  --require rails_helper
+      - name: Setup database
         env:
+          PG_DATABASE: GemPoc_test
+          PG_HOST: localhost
+          PG_USER: ${{ secrets.DB_USER }}
+          PG_PASSWORD: ${{ secrets.DB_PASSWORD }}
           RAILS_ENV: test
-          POSTGRES_USER: ${{ secrets.DB_USER }}
-          POSTGRES_PASSWORD: $${{ secrets.DB_PASSWORD }}
+          WITH_COVERAGE: true
+          DISABLE_SPRING: 1
+        run: |
+          bundle exec rails db:prepare
+          bundle exec rake test
+
+      - name: Build and test with rspec
+        env:
+          PG_DATABASE: GemPoc_test
+          PG_HOST: localhost
+          PG_USER: ${{ secrets.DB_USER }}
+          PG_PASSWORD: ${{ secrets.DB_PASSWORD }}
+          RAILS_ENV: test
+        run: |
+          bundle exec rspec spec
