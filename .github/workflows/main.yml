@@ -1,0 +1,29 @@
+name: Code Climate
+
+on: [push, pull_request]
+
+jobs:
+  codeclimate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Use Ruby version
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: 3.2.2 
+
+      - name: Bundle install
+        run: bundle install
+
+      - name: Set up SQLite database
+        run: |
+          # Depending on your project setup, adjust the commands
+          bundle exec rake db:setup
+          bundle exec rake db:migrate
+
+      - name: Run CodeClimate analysis
+        env:
+          CODECLIMATE_REPO_TOKEN: ${{ secrets.CODECLIMATE_TOKEN }}
+        run: |
+          bundle exec codeclimate analyze
